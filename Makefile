@@ -333,7 +333,7 @@ prepare-test: grpcs
 
 test: prepare test-models/testmodel grpcs
 	@echo 'Running tests'
-	export GO_TAGS="tts stablediffusion"
+	export GO_TAGS="tts stablediffusion tinydream"
 	$(MAKE) prepare-test
 	HUGGINGFACE_GRPC=$(abspath ./)/backend/python/sentencetransformers/run.sh TEST_DIR=$(abspath ./)/test-dir/ FIXTURES=$(abspath ./)/tests/fixtures CONFIG_FILE=$(abspath ./)/test-models/config.yaml MODELS_PATH=$(abspath ./)/test-models \
 	$(GOCMD) run github.com/onsi/ginkgo/v2/ginkgo --label-filter="!gpt4all && !llama && !llama-gguf"  --flake-attempts 5 --fail-fast -v -r ./api ./pkg
@@ -342,6 +342,7 @@ test: prepare test-models/testmodel grpcs
 	$(MAKE) test-llama-gguf
 	$(MAKE) test-tts
 	$(MAKE) test-stablediffusion
+	$(MAKE) test-tinydream
 
 prepare-e2e:
 	mkdir -p $(TEST_DIR)
@@ -382,6 +383,10 @@ test-tts: prepare-test
 test-stablediffusion: prepare-test
 	TEST_DIR=$(abspath ./)/test-dir/ FIXTURES=$(abspath ./)/tests/fixtures CONFIG_FILE=$(abspath ./)/test-models/config.yaml MODELS_PATH=$(abspath ./)/test-models \
 	$(GOCMD) run github.com/onsi/ginkgo/v2/ginkgo --label-filter="stablediffusion" --flake-attempts 1 -v -r ./api ./pkg
+
+test-tinydream: prepare-test
+	TEST_DIR=$(abspath ./)/test-dir/ FIXTURES=$(abspath ./)/tests/fixtures CONFIG_FILE=$(abspath ./)/test-models/config.yaml MODELS_PATH=$(abspath ./)/test-models \
+	$(GOCMD) run github.com/onsi/ginkgo/v2/ginkgo --label-filter="tinydream" --flake-attempts 1 -v -r ./api ./pkg
 
 test-container:
 	docker build --target requirements -t local-ai-test-container .

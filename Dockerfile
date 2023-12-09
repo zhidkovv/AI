@@ -76,7 +76,7 @@ RUN apt-get install -y espeak-ng espeak
 
 FROM requirements-${IMAGE_TYPE} as builder
 
-ARG GO_TAGS="stablediffusion tts"
+ARG GO_TAGS="stablediffusion tinydream tts"
 ARG GRPC_BACKENDS
 ARG BUILD_GRPC=true
 ENV GRPC_BACKENDS=${GRPC_BACKENDS}
