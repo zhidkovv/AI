@@ -139,6 +139,12 @@ Image generation is experimental and requires `GO_TAGS=stablediffusion` to be se
 make GO_TAGS=stablediffusion build
 ```
 
+You can also choose an alternative backend named tinydream. You can set it during build:
+
+```
+make GO_TAGS=tinydream build
+```
+
 ### Build with Text to audio support
 
 **Requirements**: piper-phonemize
@@ -156,7 +162,7 @@ List of the variables available to customize the build:
 | Variable | Default | Description |
 | ---------------------| ------- | ----------- |
 | `BUILD_TYPE`         |   None      | Build type. Available: `cublas`, `openblas`, `clblas`, `metal`,`hipblas` |
-| `GO_TAGS`            |   `tts stablediffusion`      | Go tags. Available: `stablediffusion`, `tts` |
+| `GO_TAGS`            |   `tts stablediffusion tinydream`      | Go tags. Available: `stablediffusion`, `tts`, `tinydream` |
 | `CLBLAST_DIR`        |         | Specify a CLBlast directory |
 | `CUDA_LIBPATH`       |         | Specify a CUDA library path |
 

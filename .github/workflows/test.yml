@@ -18,7 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        gcc-version: ['13']
         go-version: ['1.21.x']
+    env:
+      CC: gcc-${{ matrix.gcc-version }}
+      CXX: g++-${{ matrix.gcc-version }}
     steps:
       - name: Release space from worker
         run: |
@@ -54,7 +58,7 @@ jobs:
           df -h
       - name: Clone
         uses: actions/checkout@v4
-        with: 
+        with:
           submodules: true
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v4
@@ -74,9 +78,9 @@ jobs:
              sudo /bin/bash -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/conda-archive-keyring.gpg] https://repo.anaconda.com/pkgs/misc/debrepo/conda stable main" | tee -a /etc/apt/sources.list.d/conda.list' && \
              sudo apt-get update && \
              sudo apt-get install -y conda
-          sudo apt-get install -y ca-certificates cmake curl patch
+          sudo apt-get install -y ca-certificates cmake curl libgomp1 patch
           sudo apt-get install -y libopencv-dev && sudo ln -s /usr/include/opencv4/opencv2 /usr/include/opencv2
-          
+
           sudo rm -rfv /usr/bin/conda || true
           PATH=$PATH:/opt/conda/bin make -C backend/python/sentencetransformers
 
@@ -85,7 +89,7 @@ jobs:
           GO_TAGS="tts" make -C sources/go-piper piper.o && \
           sudo cp -rfv sources/go-piper/piper-phonemize/pi/lib/. /usr/lib/ && \
           # Pre-build stable diffusion before we install a newer version of abseil (not compatible with stablediffusion-ncn)
-          GO_TAGS="stablediffusion tts" GRPC_BACKENDS=backend-assets/grpc/stablediffusion make build
+          GO_TAGS="stablediffusion tts tinydream" GRPC_BACKENDS=backend-assets/grpc/stablediffusion make build
       - name: Cache grpc
         id: cache-grpc
         uses: actions/cache@v3
@@ -104,7 +108,7 @@ jobs:
           cd grpc && cd cmake/build && sudo make -j12 install
       - name: Test
         run: |
-          GO_TAGS="stablediffusion tts" make test
+          GO_TAGS="stablediffusion tinydream tts" make test
 
   tests-apple:
     runs-on: macOS-latest
@@ -114,7 +118,7 @@ jobs:
     steps:
       - name: Clone
         uses: actions/checkout@v4
-        with: 
+        with:
           submodules: true
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v4
