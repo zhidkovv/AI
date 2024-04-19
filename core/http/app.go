@@ -184,6 +184,7 @@ func App(cl *config.BackendConfigLoader, ml *model.ModelLoader, appConfig *confi
 		auth,
 	)
 	routes.RegisterAPIRoutes(appConfig, cl, ml, app, auth, galleryService)
+	routes.RegisterChatRoute(app, cl, ml, appConfig, auth)
 
 	if appConfig.ImageDir != "" {
 		app.Static("/generated-images", appConfig.ImageDir)
