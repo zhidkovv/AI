@@ -29,7 +29,7 @@ func generateUniqueFileName(dir, baseName, ext string) string {
 	}
 }
 
-func ModelTTS(backend, text, modelFile, voice string, loader *model.ModelLoader, appConfig *config.ApplicationConfig, backendConfig config.BackendConfig) (string, *proto.Result, error) {
+func ModelTTS(backend, text, modelFile, voice string, language string, loader *model.ModelLoader, appConfig *config.ApplicationConfig, backendConfig config.BackendConfig) (string, *proto.Result, error) {
 	bb := backend
 	if bb == "" {
 		bb = model.PiperBackend
@@ -83,6 +83,7 @@ func ModelTTS(backend, text, modelFile, voice string, loader *model.ModelLoader,
 		Model: modelPath,
 		Voice: voice,
 		Dst:   filePath,
+		Language: &language,
 	})
 
 	// return RPC error if any
@@ -91,4 +92,10 @@ func ModelTTS(backend, text, modelFile, voice string, loader *model.ModelLoader,
 	}
 
 	return filePath, res, err
+}
+
+func ModelTTSInfo(backend, text, modelFile, voice string, language string, loader *model.ModelLoader, appConfig *config.ApplicationConfig, backendConfig config.BackendConfig) (string, *proto.Result, error) {
+
+
+	return "", nil, nil
 }
