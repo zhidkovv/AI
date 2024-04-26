@@ -61,3 +61,14 @@ func TTSEndpoint(cl *config.BackendConfigLoader, ml *model.ModelLoader, appConfi
 		return c.Download(filePath)
 	}
 }
+
+//	@Summary	Get info about TTS backend
+//	@Param		backend	query		string	true	"TTS backend"
+//  @Param    model   query   string  false  "TTS model (for backends with multiple models )"
+//	@Success	200		{object}  map[string]string					"Response"
+//	@Router		/tts [get]
+func TTSInfoEndpoint(cl *config.BackendConfigLoader, ml *model.ModelLoader, appConfig *config.ApplicationConfig) func(c *fiber.Ctx) error {
+	return func(c *fiber.Ctx) error {
+		return c.JSON(struct { TODO string `json:"todo"`}{"not implemented"})
+	}
+}

@@ -23,6 +23,14 @@ type TTSRequest struct {
 	Language string `json:"language,omitempty" yaml:"language,omitempty"` // (optional) language to use with TTS model
 }
 
+// @Description Get info about TTS backend
+// @Description if no `model` param is provided, list available models
+// @Description if `model` is provided, list model info (speakers, languages ...)
+type TTSInfoRequest struct {
+	Backend string `json:"backend" yaml:"backend"`
+	Model   string `json:"model,omitempty" yaml:"model,omitempty"` //
+}
+
 type StoresSet struct {
 	Store string `json:"store,omitempty" yaml:"store,omitempty"`
 

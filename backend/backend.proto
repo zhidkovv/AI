@@ -16,6 +16,7 @@ service Backend {
   rpc GenerateImage(GenerateImageRequest) returns (Result) {}
   rpc AudioTranscription(TranscriptRequest) returns (TranscriptResult) {}
   rpc TTS(TTSRequest) returns (Result) {}
+  rpc TTSInfo(TTSInfoRequest) returns (Result) {}
   rpc TokenizeString(PredictOptions) returns (TokenizationResponse) {}
   rpc Status(HealthMessage) returns (StatusResponse) {}
 
@@ -264,6 +265,13 @@ message TTSRequest {
   string dst = 3;
   string voice = 4;
   optional string language = 5;
+}
+
+// Get info about TTS
+// By default list available models
+// If model is passed then list available speakers/languages
+message TTSInfoRequest {
+  optional string model = 1;
 }
 
 message TokenizationResponse {
