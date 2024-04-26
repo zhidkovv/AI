@@ -31,6 +31,7 @@ func RegisterLocalAIRoutes(app *fiber.App,
 	app.Get("/models/jobs", auth, modelGalleryEndpointService.GetAllStatusEndpoint())
 
 	app.Post("/tts", auth, localai.TTSEndpoint(cl, ml, appConfig))
+	app.Get("/tts", auth, localai.TTSInfoEndpoint(cl, ml, appConfig))
 
 	// Stores
 	sl := model.NewModelLoader("")
