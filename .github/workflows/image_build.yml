@@ -202,7 +202,7 @@ jobs:
           password: ${{ secrets.quayPassword }}
 
       - name: Cache GRPC
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           builder: ${{ steps.buildx.outputs.name }}
           # The build-args MUST be an EXACT match between the image cache and other workflow steps that want to use that cache.
@@ -222,7 +222,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           builder: ${{ steps.buildx.outputs.name }}
           build-args: |
@@ -251,7 +251,7 @@ jobs:
 
       - name: Build and push AIO image
         if: inputs.aio != ''
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           builder: ${{ steps.buildx.outputs.name }}
           build-args: |
@@ -266,7 +266,7 @@ jobs:
 
       - name: Build and push AIO image (dockerhub)
         if: inputs.aio != ''
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           builder: ${{ steps.buildx.outputs.name }}
           build-args: |
